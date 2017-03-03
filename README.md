@@ -4,7 +4,7 @@ Custom LAMP server image
 Info:
 ------------------------
 
-Based on tutum/lamp
+Based on [tutum/lamp](https://hub.docker.com/r/tutum/lamp/)
 
 Includes PHP 5 and MySQL (currently disabled).
 
