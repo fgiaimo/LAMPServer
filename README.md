@@ -18,5 +18,5 @@ Ports used:
 Scripts:
 ------------------------
 
-* <b>runLAMPserver.sh</b> : fires up the docker image containing the server itself.
-* <b>startup.sh</b> : is the server startup script, it is run when the image starts and activates the server inside the image.
+* <b>runLAMPserver.sh</b> fires up the docker image containing the server itself.
+* <b>startup.sh</b> is the server startup script, it is run when the image starts and activates the server inside the image.
