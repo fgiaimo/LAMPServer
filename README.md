@@ -18,5 +18,5 @@ Ports used:
 Scripts:
 ------------------------
 
-* <b>runLAMPserver.sh</b> fires up the docker image containing the server itself.
-* <b>startup.sh</b> is the server startup script, it is run when the image starts and activates the server inside the image.
+* <b>runLAMPserver.sh</b> starts up the docker container based on an image containing ubuntu trusty (14.04) and the needed PHP and MySQL dependencies.
+* <b>startup.sh</b> is the server startup script, which is executed when the docker container is run to start the Apache server.
