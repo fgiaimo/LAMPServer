@@ -1,0 +1,19 @@
+// Message identifier: 8.
+syntax="proto3";
+message odcore_data_dmcp_ModuleDescriptor {
+    string name = 1;
+    string identifier = 2;
+    string version = 3;
+    float frequency = 4;
+}
+message odcore_data_dmcp_RuntimeStatistic {
+    double sliceConsumption = 1;
+}
+
+message odcore_data_dmcp_ModuleStatistic {
+    odcore_data_dmcp_ModuleDescriptor module = 1;
+    odcore_data_dmcp_RuntimeStatistic runtimeStatistic = 2;
+}
+message odcore_data_dmcp_ModuleStatistics {
+    repeated odcore_data_dmcp_ModuleStatistic moduleStatistics = 1;
+}
