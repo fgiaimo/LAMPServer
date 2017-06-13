@@ -1,5 +1,6 @@
 <?php
 include_once './vendor/autoload.php';
+require_once("generated_proto/GPBMetadata/ModuleStatistics.php");
 require_once("generated_proto/odcore_data_dmcp_ModuleDescriptor.php");
 require_once("generated_proto/odcore_data_dmcp_RuntimeStatistic.php");
 require_once("generated_proto/odcore_data_dmcp_ModuleStatistic.php");
@@ -11,6 +12,7 @@ if (false ===($tcpsock = stream_socket_server("tcp://127.0.0.1:8876",$errorno,$e
 
 if(false ===($connection = stream_socket_accept($tcpsock))) 
     echo "tcp accept failed!\n";
+else echo "tcp accepted";
 
 if (false ===($udpsock = stream_socket_server("udp://127.0.0.1:8876",$errorno,$errstr,STREAM_SERVER_BIND)))
     echo"$errstr($errorno)\n";
@@ -38,6 +40,11 @@ $n = 0;
 while($receivingData){
     $udpData = stream_socket_recvfrom($udpsock, 512, 0, $peer);
     $tcpData = fread($connection,512);
+    $protoClass = new odcore_data_dmcp_ModuleStatistics();
+    $to-> mergeFromString($tcpData);
+    echo $to;
+    
+
 
     $UDP[]=$udpData; 
     $TCP[]=$tcpData;
