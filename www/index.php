@@ -1,10 +1,12 @@
 <?php
 include_once './vendor/autoload.php';
 require_once("generated_proto/GPBMetadata/ModuleStatistics.php");
-require_once("generated_proto/odcore_data_dmcp_ModuleDescriptor.php");
-require_once("generated_proto/odcore_data_dmcp_RuntimeStatistic.php");
-require_once("generated_proto/odcore_data_dmcp_ModuleStatistic.php");
-require_once("generated_proto/odcore_data_dmcp_ModuleStatistics.php");
+require_once("generated_proto/ModuleDescriptor.php");
+require_once("generated_proto/RuntimeStatistic.php");
+require_once("generated_proto/ModuleStatistic.php");
+require_once("generated_proto/ModuleStatistics.php");
+require_once("generated_proto/Container.php");
+require_once("generated_proto/TimePoint.php");
 //=========================================//
 // THE SETUP
 if (false ===($tcpsock = stream_socket_server("tcp://127.0.0.1:8876",$errorno,$errstr)))
@@ -24,27 +26,47 @@ $UDP=array();
 $TCP=array();
 $data=array();
 
-?>
-<html><body><table style=width:100%>
-<tr><th>UDP</th>
-<th>TCP</th></tr>
-<?php
+
 $receivingData = true;
 $dom=new DOMDocument();
 $dom->preserveWhiteSpace = false;
 $dom->formatOutput = true;
-
+$protoClassModuleStatistics = new ModuleStatistics();
+$protoClassContainer = new Container();
 $dataReceived = $dom-> appendChild($dom->createElement("Data"));
 $n = 0;
-
+$hex = array();
 while($receivingData){
     $udpData = stream_socket_recvfrom($udpsock, 512, 0, $peer);
     $tcpData = fread($connection,512);
-    $protoClass = new odcore_data_dmcp_ModuleStatistics();
-    $to-> mergeFromString($tcpData);
-    echo $to;
+    $hex = bin2hex($tcpData); //hex the message
+    echo $hex;
+    $length = substr($hex,4,6);
+    $firstByte= substr($hex,4,2);
+    $secondByte= substr($hex,6,2);
+    $thirdByte= substr($hex,8,2);
+    $bigEnd= $thirdByte.$secondByte. $firstByte;
+    $decLength= hexdec($bigEnd);
+    
+    echo "\n" . $decLength."\n". strlen($hex) ."\n";
+    if (strlen($hex) != $decLength *2 +10){                   //return if length is ok or not // needs the string as well
+        echo "Wrong Length \n";
+    }
+    $proto = hex2bin(substr($hex,10,$decLength*2));
+
+    echo "Proto:" . $proto ."\n";
+        echo bin2hex($proto);
+
+         $protoClassContainer -> mergeFromString($proto);
+        echo  "\n =========================== \n Proto says:". $protoClassContainer->serializeToString() ."\n";
+
+
+    echo "--------parsed-----------";
     
 
+    
+    //    $moduleStats=$protoClass -> getModuleStatistics();
+    
 
     $UDP[]=$udpData; 
     $TCP[]=$tcpData;
