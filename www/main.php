@@ -33,12 +33,16 @@ while($connection){
 	if($parseMessage -> checkContainer($message)){
 		$parseMessage -> saveStreamXML($message,$dom);
 		
-		$hexedProtoMessage = $parseMessage -> getRawProtoMessage($message);
-		$protoMessage = hex2bin($hexedProtoMessage);				//the protobuf message
-		$protoClassContainer -> mergeFromString($protoMessage);					
-		$serializedMessageFromProto = $protoClassContainer->serializeToString(); //the final string
-		echo "Message ok\n";
-	}
+                $serializedMessageFromProto = $protoClassContainer->serializeToString(); //the final string
+//              $protoClassContainer ->
+                echo "\n proto msg: ". $serializedMessageFromProto;
+//              echp "\n The bytes: ". $bytesInContainer;
+                echo "Message ok\n";
+        }
+
+
+}
+
 
 
 }
