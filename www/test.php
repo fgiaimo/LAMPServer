@@ -38,6 +38,13 @@ while($connection){
 		$protoMessage = hex2bin($hexedProtoMessage);				//the protobuf message
 		$protoClassContainer -> mergeFromString($protoMessage);					
 		$serializedMessageFromProto = $protoClassContainer->serializeToString(); //the final string
+		$bytes = $protoClassContainer -> getSerializedData();
+        $moduleStatistics -> setModuleStatistics(bin2hex($bytes));
+        echo "Bytes are : " . $bytes . "\n";
+        echo "1st : " . $serializedMessageProto . "\n";
+                
+
+
 		echo "Message ok\n";
 	}
 
