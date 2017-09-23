@@ -56,7 +56,7 @@ class ParseMessage{
 
     	}
     	return true;
-	// }
+	 }
 	public function createDomDocument(){
 		$dom=new DOMDocument();
 		$dom->preserveWhiteSpace = false;
