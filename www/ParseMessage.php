@@ -56,28 +56,29 @@ class ParseMessage{
 
     	}
     	return true;
-	}
-	// public function createDomDocument(){
-	// 	$dom=new DOMDocument();
-	// 	$dom->preserveWhiteSpace = false;
-	// 	$dom->formatOutput = true;
-	// 	$messageReceived = $dom-> appendChild($dom->createElement("message"));
-	// 	return $dom;
 	// }
+	public function createDomDocument(){
+		$dom=new DOMDocument();
+		$dom->preserveWhiteSpace = false;
+		$dom->formatOutput = true;
+		
+		return $dom;
+	}
 
 
 
-	// public function saveStreamXML($message,$dom){
-	// 	$length=$this ->getRawMessageLength($message);
-	// 	$odBytes=$this ->getOpenDaVinciBytes($message);
-	// 	$protoMessage=$this ->getRawProtoMessage($message);
-	// 	$udpDataDOM = $dataReceived -> appendChild($dom->createElement('length',"$length"));
-	// 	$udpDataDOM = $dataReceived -> appendChild($dom->createElement('odBytes',"$odBytes"));
-	// 	$udpDataDOM = $dataReceived -> appendChild($dom->createElement('protoMessage',"$protoMessage"));
+	public function saveStreamXML($message,$dom){
+		$length=$this ->getRawMessageLength($message);
+		$odBytes=$this ->getOpenDaVinciBytes($message);
+		$protoMessage=$this ->getRawProtoMessage($message);
+		$dataReceived = $dom-> appendChild($dom->createElement("message"));
+		$udpDataDOM = $dataReceived -> appendChild($dom->createElement('length',"$length"));
+		$udpDataDOM = $dataReceived -> appendChild($dom->createElement('odBytes',"$odBytes"));
+		$udpDataDOM = $dataReceived -> appendChild($dom->createElement('protoMessage',"$protoMessage"));
 
 	    
-	//     $dom -> save("dom.xml");
-	// }
+	    $dom -> save("dom.xml");
+	}
 
 }
 ?>
