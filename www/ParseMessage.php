@@ -61,7 +61,7 @@ class ParseMessage{
 		$dom=new DOMDocument();
 		$dom->preserveWhiteSpace = false;
 		$dom->formatOutput = true;
-		
+		$dom -> appendChild($dom->createElement("all_messages"));
 		return $dom;
 	}
 
@@ -71,13 +71,36 @@ class ParseMessage{
 		$length=$this ->getRawMessageLength($message);
 		$odBytes=$this ->getOpenDaVinciBytes($message);
 		$protoMessage=$this ->getRawProtoMessage($message);
-		$dataReceived = $dom-> appendChild($dom->createElement("message"));
+		$all_messages=$dom->getElementsByTagName('all_messages')->item(0);
+		$dataReceived = $all_messages -> appendChild($dom->createElement("message"));
 		$udpDataDOM = $dataReceived -> appendChild($dom->createElement('length',"$length"));
 		$udpDataDOM = $dataReceived -> appendChild($dom->createElement('odBytes',"$odBytes"));
 		$udpDataDOM = $dataReceived -> appendChild($dom->createElement('protoMessage',"$protoMessage"));
 
 	    
 	    $dom -> save("dom.xml");
+	}
+	public function lastMessage(){
+		$dom = new DOMDocument();
+		$dom -> load('dom.xml');
+		$message=$dom->getElementsByTagName('Message');
+		header('Content-Type: text/event-stream');
+		header('Cache-Control: no-cache');
+			foreach ($message as $msg){
+				//$uID = $dom->getElementsByTagName('UDPid');
+				//$udpid = $UDPtext -> nodeValue;
+				$length = $msg -> childNodes ->item(0) -> nodeValue;
+				$odbytes = $msg -> childNodes -> item(1)-> nodeValue;
+				$msgbytes = $msg -> childNodes -> item(2) -> nodeValue;
+				//$udpid =$UDPtext ->childNodes ->item(1)-> nodeValue;
+				//$udpdata= $UDPtext -> childNodes-> item(3)-> nodeValue;
+				//if($udpid>$UDPnum){
+				echo "data: the length is: {$length} odbytes is:{$odbytes} and the msg bytes is: {$msgbytes}\n\n\n";
+				flush ();
+				
+				
+			}
+
 	}
 
 }

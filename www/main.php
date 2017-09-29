@@ -30,21 +30,15 @@ while($connection){
 	$rawMessage= $socket -> listenUdp($udpSocket);
 	$message = $parseMessage -> parse($rawMessage);
 
-	if($parseMessage -> checkContainer($message)){
+	if ($parseMessage -> checkContainer($message)){
 		$parseMessage -> saveStreamXML($message,$dom);
 		
-                $serializedMessageFromProto = $protoClassContainer->serializeToString(); //the final string
-//              $protoClassContainer ->
-                echo "\n proto msg: ". $serializedMessageFromProto;
-//              echp "\n The bytes: ". $bytesInContainer;
-                echo "Message ok\n";
-        }
+        $serializedMessageFromProto = $protoClassContainer->serializeToString(); //the final string
 
+        echo "\n proto msg: ". $serializedMessageFromProto;
 
-}
-
-
-
+        echo "Message ok\n";
+    }
 }
 
 ?>

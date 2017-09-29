@@ -1,0 +1,18 @@
+<html>
+<body>
+<h2>"Data"</h2>
+<p id="message"></p>
+<script>
+
+//var conn = new WebSocket('ws://localhost:8080');
+//conn.onmessage = function(e) { 
+	//var message =e.data;
+	//document.getElementById('message')=message;
+var source = new EventSource("getLastData.php");
+}
+source.onmessage = function(event) {
+    document.getElementById("message").innerHTML += event.data + "<br>";
+}
+</script>
+</html>
+</body>

@@ -10,6 +10,7 @@ require_once("generated_proto/ModuleStatistic.php");
 require_once("generated_proto/ModuleStatistics.php");
 require_once("generated_proto/Container.php");
 require_once("generated_proto/TimePoint.php");
+require_once("getLastData.php");
 
 $socket = new Sockets();
 $parseMessage = new ParseMessage();
@@ -39,12 +40,8 @@ while($connection){
 		$protoClassContainer -> mergeFromString($protoMessage);					
 		$serializedMessageFromProto = $protoClassContainer->serializeToString(); //the final string
 		$bytes = $protoClassContainer -> getSerializedData();
-        $moduleStatistics -> setModuleStatistics(bin2hex($bytes));
-        echo "Bytes are : " . $bytes . "\n";
-        echo "1st : " . $serializedMessageProto . "\n";
-                
-
-
+        $moduleStatistics -> setModuleStatistics($bytes);
+        echo "Bytes are : " . bin2hex($bytes) . "\n";
 		echo "Message ok\n";
 	}
 
