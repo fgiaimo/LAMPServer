@@ -1,4 +1,4 @@
-// Message identifier: 8.
+
 syntax="proto3";
 message ModuleDescriptor {
     string name = 1;

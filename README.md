@@ -15,11 +15,11 @@ To start the server, run `sh runLAMPserver.sh`
 To modify the installation commands(composer,protoc) modify `startup.sh`
 
 
-------------------------
+-------------------------
 
 Main.php accepts sockets and starts receiving data. 
 
----------------------------
+-------------------------
 
 Ports used:
 * Port 80 (accepting local connections) for visualization purposes
@@ -27,8 +27,14 @@ Ports used:
 
 
 Scripts:
-------------------------
+-------------------------
 
 * <b>runLAMPserver.sh</b> starts up the docker container based on an image containing ubuntu trusty (14.04) and the needed PHP and MySQL dependencies.
 * <b>startup.sh</b> is the server startup script, which is executed when the docker container is run to start the Apache server.
-* <b>phpSettings.sh</b> Ignore this script
+* <b>phpSettings.sh</b> adds the protocol buffers library as an extension to php. 
+
+Files:
+-------------------------
+* <b> proto </b> contains messages for protocol buffers
+* <b> protoc</b> contains the compiler for protocol buffers
+* <b> www </b> contains the server and other functionalities. 

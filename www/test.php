@@ -25,7 +25,7 @@ $tcpMsg = $socket -> listenTcp($tcpConn);
 $udpMsg = $socket ->listenUdp($udpSocket);
 
 $connection = $socket -> getConnectionStatus($udpMsg,$tcpMsg);
-//$dom = $parseMessage -> createDomDocument();
+$dom = $parseMessage -> createDomDocument();
 
 while($connection){ 
 	//connection is always true, need to fix it. 
@@ -33,14 +33,16 @@ while($connection){
 	$message = $parseMessage -> parse($rawMessage);
 
 	if($parseMessage -> checkContainer($message)){
-		//$parseMessage -> saveStreamXML($message,$dom);
+		$parseMessage -> saveStreamXML($message,$dom);
 		//Nice format of xml. Need to fix it.
 		$hexedProtoMessage = $parseMessage -> getRawProtoMessage($message);
 		$protoMessage = hex2bin($hexedProtoMessage);				//the protobuf message
 		$protoClassContainer -> mergeFromString($protoMessage);					
 		$serializedMessageFromProto = $protoClassContainer->serializeToString(); //the final string
 		$bytes = $protoClassContainer -> getSerializedData();
-        $moduleStatistics -> setModuleStatistics($bytes);
+        
+		
+        //$moduleStatistics -> setModuleStatistics($bytes);
         echo "Bytes are : " . bin2hex($bytes) . "\n";
 		echo "Message ok\n";
 	}

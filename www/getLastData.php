@@ -9,16 +9,13 @@ Class DisplayMessage{
 		header('Content-Type: text/event-stream');
 		header('Cache-Control: no-cache');
 			foreach ($message as $msg){
-				//$uID = $dom->getElementsByTagName('UDPid');
-				//$udpid = $UDPtext -> nodeValue;
+				 // every dom element has a tree structure, to access the value this is how you do it.
 				$length = $msg -> childNodes ->item(0) -> nodeValue;
 				$odbytes = $msg -> childNodes -> item(1)-> nodeValue;
 				$msgbytes = $msg -> childNodes -> item(2) -> nodeValue;
-				//$udpid =$UDPtext ->childNodes ->item(1)-> nodeValue;
-				//$udpdata= $UDPtext -> childNodes-> item(3)-> nodeValue;
-				//if($udpid>$UDPnum){
+				
 				echo "data: the length is: {$length} odbytes is:{$odbytes} and the msg bytes is: {$msgbytes}\n\n\n";
-				flush ();
+				flush (); //you need to flush it so that the string echoed can be streamed to the html file.
 			
 				
 			}
