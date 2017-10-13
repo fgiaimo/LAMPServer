@@ -26,15 +26,14 @@ $UDPData = $socketsWrapper -> receiveUDPData($UDPSocket);
 $DOM = $messageParser -> createDOMDocument(); // DOM file created
 
 while(true) {
-	$rawMessage= $socketsWrapper -> receiveUDPData($UDPSocket); 
+	$rawMessage = $socketsWrapper -> receiveUDPData($UDPSocket); 
 	
 	$message = $messageParser -> parse($rawMessage);
-	if ($messageParser -> checkContainer($message)){ // sanity check
+	if ($messageParser -> checkContainer($message)) { // sanity check
 		$messageParser -> saveStreamXML($message,$DOM);
 //        $serializedMessageFromProto = $protoClassContainer->serializeToString();
 //        echo "\n proto msg: ". $serializedMessageFromProto;
         echo "Bytes received: $message\n";
     }
 }
-
 ?>
