@@ -5,9 +5,8 @@ echo "    . /etc/bash_completion" >> /root/.bashrc
 echo "fi" >> /root/.bashrc
 source /root/.bashrc
 
-service apache2 start
-
-echo "Apache Started."
+#service apache2 start
+#echo "Apache Started."
 
 
 

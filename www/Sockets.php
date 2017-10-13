@@ -1,51 +1,50 @@
 <?php
+class SocketsWrapper {
+    public function createTCPSocket($url) {
+        echo " * Creating TCP socket...\n";
+        $TCPSocket = stream_socket_server($url, $errno, $errstr);
+        if ($TCPSocket === false){
+            echo " * TCP socket creation failed [$errstr ($errno)]\n";
+        }
+        echo " * TCP socket creation successful\n";
+        return $TCPSocket;
+    }
+    
+    public function connectTCPSocket($TCPSocket) {
+        echo " * Connecting TCP socket...\n";
+        $TCPConnection = stream_socket_accept($TCPSocket);
+        if ($TCPConnection === false){
+            echo " * TCP socket connection failed\n";
+//            return 0;
+        }
+        echo " * TCP socket connection successful\n";
+        return $TCPConnection;
+    }
 
-class Sockets{
-	public function createTcpSocket($address){ //creates a tcp socket
-		$tcpsock = stream_socket_server($address,$errorno,$errstr);
-		if ($tcpsock===false){
-			echo "TCP socket failed";
-		}
-		return $tcpsock;
-	}
-	public function connectTcpSocket($tcpsock){ //connects a tcp socket
-		$connection = stream_socket_accept($tcpsock);
-		if ($connection===false){
-			echo "TCP connection failed";
-            return 0;
-		}
-		return $connection;
-	}
-
-    public function listenTcp($connection){ //reads the received data
-        $tcpData = fread($connection,512);
-        while ($tcpData != -1){
-            return $tcpData;
+    public function receiveTCPData($TCPConnection) {
+        $TCPData = fread($TCPConnection, 512);
+        while ($TCPData and $TCPData != -1){
+            return $TCPData;
         }   
         return 0;
     }
 
-	public function createUdpSocket($address){//creates a udp socket
-		$udpsock = stream_socket_server($address,$errorno,$errstr,STREAM_SERVER_BIND);//stream_server_bind is required as an option for udp sockets.
-		if ($udpsock===false){
-			echo "UDP connection failed";
-            return 0;
-		}
-        return $udpsock;
-	}
+    public function createUDPSocket($url) {
+        echo " * Creating UDP socket...\n";
+        $UDPSocket = stream_socket_server($url, $errno, $errstr, STREAM_SERVER_BIND); 
+        if ($UDPSocket === false) {
+            echo " * UDP socket creation failed [$errstr ($errno)]\n";
+//            return 0;
+        }
+        echo " * UDP socket creation successful\n";
+        return $UDPSocket;
+    }
 
-	public function listenUdp($udpsock){//reads the received data 
-		$udpData = stream_socket_recvfrom($udpsock, 512, 0, $peer);
-		while ($udpData != -1){
-			return $udpData;
-		}	
-		return 0;
-	}
-    //need to fix
-    public function getConnectionStatus($udpData,$tcpData){
-        if (($udpData == -1)and($tcpData == -1)){
-            return false;
-        }else
-        return true;
+    public function receiveUDPData($UDPSocket) {
+        $UDPData = stream_socket_recvfrom($UDPSocket, 512, 0, $peer);
+        while ($UDPData != -1) {
+            return $UDPData;
+        }    
+        return 0;
     }
 }
