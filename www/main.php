@@ -1,7 +1,7 @@
 <?php
 include_once './vendor/autoload.php';
 
-require_once("Sockets.php");
+require_once("SocketsWrapper.php");
 require_once("ParseMessage.php");
 require_once("generated_proto/GPBMetadata/ModuleStatistics.php");
 require_once("generated_proto/ModuleDescriptor.php");
@@ -11,9 +11,11 @@ require_once("generated_proto/ModuleStatistics.php");
 require_once("generated_proto/Container.php");
 require_once("generated_proto/TimePoint.php");
 
+
+require_once("OD4Message.php");
+
 $socketsWrapper = new SocketsWrapper();
 $messageParser = new MessageParser();
-// $protoClassContainer = new Container();
 
 $UDPSocket = $socketsWrapper -> createUDPSocket('udp://127.0.0.1:8877');
 
@@ -23,17 +25,18 @@ $TCPConnection = $socketsWrapper -> connectTCPSocket($TCPSocket);
 $TCPData = $socketsWrapper -> receiveTCPData($TCPConnection); 
 $UDPData = $socketsWrapper -> receiveUDPData($UDPSocket);
 
-$DOM = $messageParser -> createDOMDocument(); // DOM file created
+$DOM = $messageParser -> createDOMDocument();
 
 while(true) {
 	$rawMessage = $socketsWrapper -> receiveUDPData($UDPSocket); 
 	
-	$message = $messageParser -> parse($rawMessage);
-	if ($messageParser -> checkContainer($message)) { // sanity check
-		$messageParser -> saveStreamXML($message,$DOM);
-//        $serializedMessageFromProto = $protoClassContainer->serializeToString();
-//        echo "\n proto msg: ". $serializedMessageFromProto;
-        echo "Bytes received: $message\n";
+	$od4Message = new OD4Message($rawMessage);
+	
+	if ($od4Message->isValid()) { // sanity check
+		$messageParser -> saveStreamXML($od4Message->getRawBytes(),$DOM);
+        echo "Valid message: ".$od4Message->getRawBytes()."\n";
+    } else {
+        echo "Received corrupted data [".(string)$rawMessage."]\n";
     }
 }
 ?>

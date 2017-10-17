@@ -11,19 +11,18 @@ class SocketsWrapper {
     }
     
     public function connectTCPSocket($TCPSocket) {
-        echo " * Connecting TCP socket...\n";
+        echo " * Awaiting TCP connection...\n";
         $TCPConnection = stream_socket_accept($TCPSocket);
         if ($TCPConnection === false){
-            echo " * TCP socket connection failed\n";
-//            return 0;
+            echo " * TCP connection failed\n";
         }
-        echo " * TCP socket connection successful\n";
+        echo " * TCP connection successful\n";
         return $TCPConnection;
     }
 
     public function receiveTCPData($TCPConnection) {
         $TCPData = fread($TCPConnection, 512);
-        while ($TCPData and $TCPData != -1){
+        while ($TCPData && $TCPData != -1){
             return $TCPData;
         }   
         return 0;
@@ -34,7 +33,6 @@ class SocketsWrapper {
         $UDPSocket = stream_socket_server($url, $errno, $errstr, STREAM_SERVER_BIND); 
         if ($UDPSocket === false) {
             echo " * UDP socket creation failed [$errstr ($errno)]\n";
-//            return 0;
         }
         echo " * UDP socket creation successful\n";
         return $UDPSocket;
